@@ -1,9 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 const ProductItem = (props) => {
+    const router=useRouter()
+    const routeClickHandler=()=>{
+        router.push('/product/'+props.product.id)
+    }
 	return (
-		<div className="flex flex-col basis-1/4 p-10 ">
-			<div className="flex relative justify-center bg-slate-100 p-5">
+		<div className="flex flex-col basis-1/4 p-10 hover:shadow-md hover:cursor-pointer" onClick={routeClickHandler}>
+			<div className="flex relative justify-center p-5 ">
 				<Image
 					src={props.product.image}
 					alt={props.product.title}
@@ -18,9 +23,6 @@ const ProductItem = (props) => {
 						stroke="currentColor"
 					>
 						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
 							d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
 						/>
 					</svg>
@@ -31,9 +33,9 @@ const ProductItem = (props) => {
 			</div>
 			<div className="flex flex-row my-5">
 				<div className="flex flex-col  basis-1/2  text-lg text-red-500 p-1 px-1 py-2">
-					${props.product.price}
+					${new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(props.product.price)}
 				</div>
-				<div className="flex flex-col basis-1/2 text-center p-1 px-1 py-2 text-white bg-gray-800 rounded-full self-baseline">
+				<div className="flex flex-col basis-1/2 text-center p-1 px-1 py-2 text-white bg-black self-baseline">
 					Add to cart
 				</div>
 			</div>

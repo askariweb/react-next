@@ -1,9 +1,10 @@
 import Head from "next/head";
-import Image from "next/image";
-import ProductList from "../components/ProductList/ProductList";
+import { useState } from "react";
+import ProductList from "../components/ProductList/ProductList.component";
 import styles from "../styles/Home.module.css";
 
 const Home = (props) => {
+    const [loading,setLoading]=useState(true);
 	return (
 		<div className={styles.container}>
 			<Head>
@@ -14,19 +15,19 @@ const Home = (props) => {
 				/>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<ProductList products={props.products} />
+			{loading && <ProductList products={props.products} />}
 		</div>
 	);
 };
 export async function getStaticProps() {
-	const response = await fetch("https://fakestoreapi.com/products?limit=12");
+	const response = await fetch(process.env.PRODUCT_LIST_FETCH_URL_LIMIT);
 	const data = await response.json();
 
 	return {
 		props: {
 			products: data,
 		},
-		revalidate: 1,
+		revalidate: 1000,
 	};
 }
 export default Home;
